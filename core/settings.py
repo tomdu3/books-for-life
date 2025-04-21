@@ -163,3 +163,9 @@ AUTH_USER_MODEL = 'auth.User'
 
 # Add login url
 LOGIN_URL = 'login'
+
+# Cookies settings
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
