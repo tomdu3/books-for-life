@@ -156,6 +156,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Needed for admin for django4.+, otherwise error in gitpod
 CSRF_TRUSTED_ORIGINS = [
     'https://books-4-life-2d26bdf04dec.herokuapp.com/',
+    '*'
     ]
 
 # Add custom User model
@@ -163,10 +164,3 @@ AUTH_USER_MODEL = 'auth.User'
 
 # Add login url
 LOGIN_URL = 'login'
-
-# Cookies settings
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = False 
-SESSION_COOKIE_SAMESITE = 'Lax'
-CSRF_COOKIE_SAMESITE = 'Lax'
