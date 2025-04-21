@@ -155,8 +155,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Needed for admin for django4.+, otherwise error in gitpod
 CSRF_TRUSTED_ORIGINS = [
-    'https://8000-tomdu3-booksforlife-faydvwtuct5.ws-eu104.gitpod.io/*',
-    'https://books-4-life-2d26bdf04dec.herokuapp.com/*',
+    'https://books-4-life-2d26bdf04dec.herokuapp.com/',
     ]
 
 # Add custom User model
