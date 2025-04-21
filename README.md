@@ -460,6 +460,7 @@ SECRET_KEY=[your_secret_key]
 DEBUG=True
 DATABASE_URL=postgres://[username]:[password]@[host]:[port]/[database_name]
 CLOUDINARY_URL=cloudinary://[api_key]:[api_secret]@[cloud_name]
+PORT=8000
 ```
 **Ensure the `.env` file is added to your `.gitignore` file so it doesn't get pushed to a public repository.
 
