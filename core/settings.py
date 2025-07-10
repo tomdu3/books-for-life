@@ -37,7 +37,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = [
-    'books-4-life-2d26bdf04dec.herokuapp.com',
+    'books-4-life-2d26bdf04dec.herokuapp.com', '.vercel.app', 'localhost'
     ]
 
 
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'books',
     'authors',
     'django_summernote',
+    'django_extensions',
 ]
 
 MIDDLEWARE = [
