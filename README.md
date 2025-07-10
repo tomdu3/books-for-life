@@ -1,7 +1,9 @@
 # Books for Life
 
-[![Books for Life logo](./docs/images/android-chrome-192x192.png)](https://books-4-life-2d26bdf04dec.herokuapp.com/)
-[![Am I Responsive Mockup](./docs/images/amiresponsive.png)](https://books-4-life-2d26bdf04dec.herokuapp.com/)
+[![Books for Life logo](./docs/images/android-chrome-192x192.png)](https://books-for-life.vercel.app/)
+[![Am I Responsive Mockup](./docs/images/amiresponsive.png)](https://books-for-life.vercel.app/)
+
+[Link to the deployed website](https://books-for-life.vercel.app/)
 
 ## Table of Contents
 
@@ -371,6 +373,8 @@ Developer wanted to implement the pagination for all the tables, but there wasn'
     - **ElephantSQL** for hosting of the database of the website.
 - [Heroku](https://www.heroku.com/)
     - **Heroku** for the website deployment.
+- [Vercel](https://vercel.com/)
+    - **Vercel** for hosting of the website.
 - [Cloudinary](https://cloudinary.com/)
     - The project uses **Cloudinary** to store the images of the website.
 - [Summernote](https://summernote.org/)
@@ -550,7 +554,8 @@ A copy of the Repository should now be in your GitHub account.
 You can now propose changes to the Repository by creating a Pull Request.
 
 ### Live deployment
-The web site is deployed on Heroku and can be found [here](https://books-4-life-2d26bdf04dec.herokuapp.com/).
+The web site was initially deployed on Heroku, [here](https://books-4-life-2d26bdf04dec.herokuapp.com/). The new deployed service is Vercel, and the deployed link is:
+[https://books-for-life.vercel.app/](https://books-for-life.vercel.app/)
 
 
 [Back to top ⇧](#table-of-contents)
