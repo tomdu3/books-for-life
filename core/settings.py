@@ -37,7 +37,11 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = [
-    'books-4-life-2d26bdf04dec.herokuapp.com', '.vercel.app', 'localhost',  '127.0.0.1'
+    'books-4-life-2d26bdf04dec.herokuapp.com',
+    '.vercel.app',
+    'localhost', 
+    '.now.sh',
+    '127.0.0.1'
     ]
 
 
@@ -155,7 +159,8 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://books-4-life-2d26bdf04dec.herokuapp.com/'
+    'https://books-4-life-2d26bdf04dec.herokuapp.com/',
+    'https://*.vercel.app'
     ]
 
 # Add custom User model
