@@ -161,7 +161,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://books-4-life-2d26bdf04dec.herokuapp.com/',
-    'https://books4life.tomdcoding.net',
+    'https://books4life.tomdcoding.net/',
     'https://*.vercel.app'
     ]
 
