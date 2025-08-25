@@ -38,6 +38,7 @@ DEBUG = os.environ.get('DEBUG')
 
 ALLOWED_HOSTS = [
     'books-4-life-2d26bdf04dec.herokuapp.com',
+    'books4life.tomdcoding.net',
     '.vercel.app',
     'localhost', 
     '.now.sh',
