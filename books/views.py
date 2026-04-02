@@ -54,7 +54,7 @@ class BookDetail(LoginRequiredMixin, View):
         context = {
             'book': book,
             'liked_by_user': liked_by_user,
-             }
+        }
         return render(request, 'books/book_detail.html', context=context)
 
 
@@ -186,7 +186,7 @@ class BookDeleteView(LoginRequiredMixin, View):
             request,
             (f'Book "{book.title}" successfully deleted!'),
             extra_tags='success'
-            )
+        )
 
         return redirect('user_page')
 

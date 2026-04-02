@@ -40,10 +40,10 @@ ALLOWED_HOSTS = [
     'books-4-life-2d26bdf04dec.herokuapp.com',
     'books4life.tomdcoding.net',
     '.vercel.app',
-    'localhost', 
+    'localhost',
     '.now.sh',
     '127.0.0.1'
-    ]
+]
 
 
 # Application definition
@@ -163,7 +163,7 @@ CSRF_TRUSTED_ORIGINS = [
     'https://books-4-life-2d26bdf04dec.herokuapp.com/',
     'https://books4life.tomdcoding.net',
     'https://*.vercel.app'
-    ]
+]
 
 # Add custom User model
 AUTH_USER_MODEL = 'auth.User'

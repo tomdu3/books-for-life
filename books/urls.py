@@ -20,4 +20,4 @@ urlpatterns = [
          name='like_book_detail'),
     path('remove_from_favourites/<str:slug>/', views.remove_from_favourites,
          name='remove_from_favourites'),
-    ]
+]

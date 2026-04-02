@@ -40,7 +40,7 @@ def login_user(request):
             # Return an 'invalid login' error message.
             messages.error(request, (
                 'Login error! Please check your username and password.'),
-                 extra_tags='danger')
+                extra_tags='danger')
             return redirect('login')
     else:
         return render(request, 'authentication/login.html', {})
@@ -83,7 +83,7 @@ def user_profile(request):
     user = request.user
     context = {
         'user': user
-        }
+    }
     return render(request, 'user_profile.html', context)
 
 
