@@ -10,14 +10,14 @@ from .models import Book, Category
 from .forms import BookForm
 
 
-# Home Page view
 def home(request):
+    """Render the home page."""
     return render(request, 'books/home.html')
 
 
-# User Page View (My Books)
 @login_required
 def user_page(request):
+    """Render the user's personal page displaying their books."""
     user = request.user
 
     user_books = Book.objects.filter(user_id=user.id)
@@ -29,18 +29,24 @@ def user_page(request):
 
 
 def book_delete_confirmation(request, book_id):
+    """Confirm and handle the deletion of a book by ID."""
     book = get_object_or_404(Book, id=book_id)
+
+    if book.user_id != request.user:
+        messages.error(request, 'You do not have permission to delete this book.')
+        return redirect('user_page')
 
     if request.method == 'POST':
         # Handle the actual deletion of the book here
         book.delete()
+        messages.success(request, f'Book "{book.title}" successfully deleted!', extra_tags='success')
         return redirect('user_page')
 
     return render(request, 'books/book_delete.html', {'book': book})
 
 
-# Book Detail View
 class BookDetail(LoginRequiredMixin, View):
+    """Display the details of a specific book."""
 
     def get(self, request, slug, *args, **kwargs):
         queryset = Book.objects.all()
@@ -58,9 +64,9 @@ class BookDetail(LoginRequiredMixin, View):
         return render(request, 'books/book_detail.html', context=context)
 
 
-# User Favourites View
 @login_required
 def user_favourites(request):
+    """Render the user's favourite books page."""
     user = request.user
 
     liked_books = Book.objects.filter(likes=user)
@@ -71,10 +77,14 @@ def user_favourites(request):
     return render(request, 'books/user_favourites.html', context=context)
 
 
-# Book Edit (Update) View
 class BookUpdateView(LoginRequiredMixin, View):
+    """View for updating an existing book."""
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
+        if book.user_id != request.user:
+            messages.error(request, 'You do not have permission to edit this book.')
+            return redirect('user_page')
+        
         form = BookForm(instance=book)
         categories = Category.objects.all()
         book.short_description = book.short_description.strip()
@@ -87,6 +97,10 @@ class BookUpdateView(LoginRequiredMixin, View):
 
     def post(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
+        if book.user_id != request.user:
+            messages.error(request, 'You do not have permission to edit this book.')
+            return redirect('user_page')
+            
         categories = Category.objects.all()
         form = BookForm(request.POST, request.FILES, instance=book)
 
@@ -101,6 +115,7 @@ class BookUpdateView(LoginRequiredMixin, View):
                 extra_tags='success')
             return redirect('user_page')
 
+        messages.error(request, 'Please correct the errors below.', extra_tags='danger')
         context = {
             'book': book,
             'form': form,
@@ -109,8 +124,8 @@ class BookUpdateView(LoginRequiredMixin, View):
         return render(request, 'books/book_edit.html', context)
 
 
-# Book Add View
 class AddBookView(LoginRequiredMixin, View):
+    """View for adding a new book."""
     def get(self, request):
         form = BookForm()
         categories = Category.objects.all()
@@ -166,6 +181,7 @@ class AddBookView(LoginRequiredMixin, View):
                 extra_tags='success')
             return redirect('user_page')
 
+        messages.error(request, 'Please correct the errors below.', extra_tags='danger')
         categories = Category.objects.all()
 
         context = {
@@ -175,10 +191,15 @@ class AddBookView(LoginRequiredMixin, View):
         return render(request, 'books/book_add.html', context)
 
 
-# Delete Book View
 class BookDeleteView(LoginRequiredMixin, View):
+    """View for handling the deletion of a book by slug."""
     def get(self, request, slug):
         book = get_object_or_404(Book, slug=slug)
+        
+        if book.user_id != request.user:
+            messages.error(request, 'You do not have permission to delete this book.')
+            return redirect('user_page')
+            
         book.delete()
 
         # Success message upon deletion
@@ -191,9 +212,9 @@ class BookDeleteView(LoginRequiredMixin, View):
         return redirect('user_page')
 
 
-# Find Book View
 @login_required
 def find_book(request):
+    """View for searching and displaying books."""
 
     query = request.GET.get('q')  # Get the query parameter from the URL
     if query:
@@ -216,9 +237,9 @@ def find_book(request):
     return render(request, 'books/find_book.html', context=context)
 
 
-# Like Book View (from the 'find_book' view)
 @login_required
 def like_book(request, slug):
+    """Handle liking/unliking a book from the find_book view."""
     query_param = request.POST.get('q')  # Get the query parameter from the URL
     print(query_param)
 
@@ -242,9 +263,9 @@ def like_book(request, slug):
         return redirect('find_book')
 
 
-# Like Book View (from the 'book_detail' view)
 @login_required
 def like_book_detail(request, slug):
+    """Handle liking/unliking a book from the book detail view."""
     if request.method == 'POST' and request.user.is_authenticated:
         book = get_object_or_404(Book, slug=slug)
 
@@ -262,8 +283,8 @@ def like_book_detail(request, slug):
         return redirect('book_detail', slug=slug)
 
 
-# Remove from Favourites View
 def remove_from_favourites(request, slug):
+    """Remove a book from the user's favourites."""
     user = request.user
 
     # Get the book by its slug

@@ -12,8 +12,8 @@ from django.contrib.auth.models import User
 from .models import UserProfile
 
 
-# User login authentication view
 def login_user(request):
+    """User login authentication view."""
     if request.method == 'POST':
         username_or_email = request.POST["username_or_email"]
         password = request.POST["password"]
@@ -46,16 +46,16 @@ def login_user(request):
         return render(request, 'authentication/login.html', {})
 
 
-# User logout view
 def logout_user(request):
+    """User logout view."""
     logout(request)
     messages.success(request, ('You have been logged out!', ),
                      extra_tags='info')
     return redirect('/')
 
 
-# User registration view
 def register_user(request):
+    """User registration view."""
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -77,9 +77,9 @@ def register_user(request):
     return render(request, 'authentication/signup.html', context)
 
 
-# User profile view
 @login_required
 def user_profile(request):
+    """User profile view."""
     user = request.user
     context = {
         'user': user
@@ -87,9 +87,9 @@ def user_profile(request):
     return render(request, 'user_profile.html', context)
 
 
-# Update Profile View
 @login_required
 def update_profile(request):
+    """Update Profile View."""
     # Get the user's profile instance
     try:
         user_profile = UserProfile.objects.get(user=request.user)
@@ -178,6 +178,7 @@ def update_profile(request):
 
 @login_required
 def delete_profile(request):
+    """Delete user profile view."""
     if request.method == 'POST':
         # delete user  and log out
         request.user.delete()
@@ -187,6 +188,7 @@ def delete_profile(request):
 
 
 def contact(request):
+    """Contact form view."""
     initial_data = {}
 
     # Check if the user is authenticated
@@ -202,4 +204,5 @@ def contact(request):
 
 
 def custom_404_view(request, exception):
+    """Custom 404 error view."""
     return render(request, '404.html', {}, status=404)
