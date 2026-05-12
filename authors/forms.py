@@ -14,48 +14,54 @@ class SignUpForm(UserCreationForm):
         label='',
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Email address'},),
+            'placeholder': 'Email address'
+        }),
         required=False,
-        help_text='',)
+        help_text='',
+    )
 
     class Meta:
         model = get_user_model()
-        fields = ('username', 'email', 'password1', 'password2', )
+        fields = ('username', 'email', 'password1', 'password2')
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
         if email and get_user_model().objects.filter(email=email).exists():
             raise forms.ValidationError(
-                'This email is already in use. Please use a different email.')
+                'This email is already in use. Please use a different email.'
+            )
         return email
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
 
-        # ovveride the default form fields
-        self.fields['username'].widget.attrs[
-            'class'] = 'form-control form-label'
+        # override the default form fields
+        self.fields['username'].widget.attrs.update({
+            'class': 'form-control form-label',
+            'placeholder': 'Username (required)'
+        })
         self.fields['username'].label = ''
-        self.fields['username'].widget.attrs[
-            'placeholder'] = 'Username (required)'
         self.fields['username'].help_text = ''
 
-        self.fields['password1'].widget.attrs[
-            'class'] = 'form-control form-label'
-        self.fields['password1'].widget.attrs[
-            'placeholder'] = 'Password (required)'
+        self.fields['password1'].widget.attrs.update({
+            'class': 'form-control form-label',
+            'placeholder': 'Password (required)'
+        })
         self.fields['password1'].label = ''
         self.fields['password1'].help_text = ''
-        self.fields['password1'].error_messages[
-            'invalid'] = 'The password doesn\'t meet the requirements.'
-        self.fields['password2'].widget.attrs[
-            'class'] = 'form-control form-label'
-        self.fields['password2'].widget.attrs[
-            'placeholder'] = 'Confirm Password (required)'
+        self.fields['password1'].error_messages['invalid'] = (
+            "The password doesn't meet the requirements."
+        )
+
+        self.fields['password2'].widget.attrs.update({
+            'class': 'form-control form-label',
+            'placeholder': 'Confirm Password (required)'
+        })
         self.fields['password2'].label = ''
         self.fields['password2'].help_text = ''
-        self.fields['password2'].error_messages[
-            'password_mismatch'] = 'The two password fields didn\'t match.'
+        self.fields['password2'].error_messages['password_mismatch'] = (
+            "The two password fields didn't match."
+        )
 
 
 # Update User Profile Form
@@ -65,9 +71,11 @@ class UpdateProfileForm(UserChangeForm):
         label='Email:',
         widget=forms.EmailInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Email address'},),
+            'placeholder': 'Email address'
+        }),
         required=False,
-        help_text='',)
+        help_text='',
+    )
 
     profile_image = CloudinaryFileField(
         label='Change Profile Image',
@@ -97,7 +105,7 @@ class UpdateProfileForm(UserChangeForm):
 
     class Meta:
         model = User
-        fields = ('email', 'profile_image',)
+        fields = ('email', 'profile_image')
 
 
 # Contact Form for sending email
@@ -106,23 +114,26 @@ class ContactForm(forms.Form):
         label='',
         max_length=100,
         required=True,
-        widget=forms.TextInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Name (required)',
-                'id': 'name'}))
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Name (required)',
+            'id': 'name'
+        })
+    )
     email = forms.EmailField(
         label='',
         required=True,
-        widget=forms.EmailInput(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Email (required)',
-                'id': 'email'}))
+        widget=forms.EmailInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Email (required)',
+            'id': 'email'
+        })
+    )
     message = forms.CharField(
         label='',
-        widget=forms.Textarea(
-            attrs={
-                'class': 'form-control',
-                'placeholder': 'Write your message (required)',
-                'id': 'message'}))
+        widget=forms.Textarea(attrs={
+            'class': 'form-control',
+            'placeholder': 'Write your message (required)',
+            'id': 'message'
+        })
+    )
