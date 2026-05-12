@@ -328,6 +328,19 @@ Developer wanted to implement the pagination for all the tables, but there wasn'
 [Back to top ⇧](#table-of-contents)
 
 ## Issues and Bugs
+
+### Resolved Bugs & Assessment Fixes
+- *Unauthorized Book Modification (Security Vulnerability)*
+    - **Issue:** Previously, any logged-in user could manipulate the URL parameters directly to edit or delete books added by other users.
+    - **Fix:** Added rigorous backend ownership validation checks (`book.user_id == request.user`) across `BookUpdateView`, `BookDeleteView`, and `book_delete_confirmation` endpoints, securely blocking unauthorized access and displaying an error message.
+- *Silent Form Validation Failures*
+    - **Issue:** Server-side validation errors (such as duplicate book titles) failed silently, simply re-rendering the form page without explicitly informing the user what required correction.
+    - **Fix:** Implemented alert containers in `book_add.html` and `book_edit.html` templates to render detailed lists of `form.errors` directly to the user alongside contextual flash error notifications.
+- *Missing CRUD Notifications*
+    - **Issue:** Certain actions (like book deletion via fallback routes) did not provide user feedback upon execution.
+    - **Fix:** Configured contextual success and error flash notifications using Django's messaging framework across all record creation, modification, and deletion views.
+
+### Known Limitations
 - *Book Deletion Modal*
     - **Issue:** The idea was to have a modal for the confirmation message on My Books Page, but there wasn't time for implementation. The attempt to add modal resulted in making automatic modal for the deletion for each record. That was not the desired result.
 - *Book Liking*
