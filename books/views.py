@@ -33,13 +33,20 @@ def book_delete_confirmation(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 
     if book.user_id != request.user:
-        messages.error(request, 'You do not have permission to delete this book.')
+        messages.error(
+            request,
+            'You do not have permission to delete this book.'
+        )
         return redirect('user_page')
 
     if request.method == 'POST':
         # Handle the actual deletion of the book here
         book.delete()
-        messages.success(request, f'Book "{book.title}" successfully deleted!', extra_tags='success')
+        messages.success(
+            request,
+            f'Book "{book.title}" successfully deleted!',
+            extra_tags='success'
+        )
         return redirect('user_page')
 
     return render(request, 'books/book_delete.html', {'book': book})
@@ -49,6 +56,7 @@ class BookDetail(LoginRequiredMixin, View):
     """Display the details of a specific book."""
 
     def get(self, request, slug, *args, **kwargs):
+        """Handle GET request to retrieve and display book details."""
         queryset = Book.objects.all()
         book = get_object_or_404(queryset, slug=slug)
 
@@ -79,12 +87,17 @@ def user_favourites(request):
 
 class BookUpdateView(LoginRequiredMixin, View):
     """View for updating an existing book."""
+
     def get(self, request, slug):
+        """Handle GET request to display the book edit form."""
         book = get_object_or_404(Book, slug=slug)
         if book.user_id != request.user:
-            messages.error(request, 'You do not have permission to edit this book.')
+            messages.error(
+                request,
+                'You do not have permission to edit this book.'
+            )
             return redirect('user_page')
-        
+
         form = BookForm(instance=book)
         categories = Category.objects.all()
         book.short_description = book.short_description.strip()
@@ -96,11 +109,15 @@ class BookUpdateView(LoginRequiredMixin, View):
         return render(request, 'books/book_edit.html', context)
 
     def post(self, request, slug):
+        """Handle POST request to process the book update."""
         book = get_object_or_404(Book, slug=slug)
         if book.user_id != request.user:
-            messages.error(request, 'You do not have permission to edit this book.')
+            messages.error(
+                request,
+                'You do not have permission to edit this book.'
+            )
             return redirect('user_page')
-            
+
         categories = Category.objects.all()
         form = BookForm(request.POST, request.FILES, instance=book)
 
@@ -111,11 +128,16 @@ class BookUpdateView(LoginRequiredMixin, View):
             # Success message upon update
             messages.success(
                 request,
-                (f'Book "{book.title}" successfully updated!'),
-                extra_tags='success')
+                f'Book "{book.title}" successfully updated!',
+                extra_tags='success'
+            )
             return redirect('user_page')
 
-        messages.error(request, 'Please correct the errors below.', extra_tags='danger')
+        messages.error(
+            request,
+            'Please correct the errors below.',
+            extra_tags='danger'
+        )
         context = {
             'book': book,
             'form': form,
@@ -126,7 +148,9 @@ class BookUpdateView(LoginRequiredMixin, View):
 
 class AddBookView(LoginRequiredMixin, View):
     """View for adding a new book."""
+
     def get(self, request):
+        """Handle GET request to render the add book form."""
         form = BookForm()
         categories = Category.objects.all()
 
@@ -137,6 +161,7 @@ class AddBookView(LoginRequiredMixin, View):
         return render(request, 'books/book_add.html', context)
 
     def post(self, request):
+        """Handle POST request to validate and create a new book."""
         form = BookForm(request.POST, request.FILES)
         if form.is_valid():
             user = request.user  # Get the current user
@@ -177,11 +202,16 @@ class AddBookView(LoginRequiredMixin, View):
             # Success message upon creation
             messages.success(
                 request,
-                (f'Book "{book.title}" successfully added!'),
-                extra_tags='success')
+                f'Book "{book.title}" successfully added!',
+                extra_tags='success'
+            )
             return redirect('user_page')
 
-        messages.error(request, 'Please correct the errors below.', extra_tags='danger')
+        messages.error(
+            request,
+            'Please correct the errors below.',
+            extra_tags='danger'
+        )
         categories = Category.objects.all()
 
         context = {
@@ -193,19 +223,24 @@ class AddBookView(LoginRequiredMixin, View):
 
 class BookDeleteView(LoginRequiredMixin, View):
     """View for handling the deletion of a book by slug."""
+
     def get(self, request, slug):
+        """Handle GET request to delete a book."""
         book = get_object_or_404(Book, slug=slug)
-        
+
         if book.user_id != request.user:
-            messages.error(request, 'You do not have permission to delete this book.')
+            messages.error(
+                request,
+                'You do not have permission to delete this book.'
+            )
             return redirect('user_page')
-            
+
         book.delete()
 
         # Success message upon deletion
         messages.success(
             request,
-            (f'Book "{book.title}" successfully deleted!'),
+            f'Book "{book.title}" successfully deleted!',
             extra_tags='success'
         )
 
@@ -215,13 +250,13 @@ class BookDeleteView(LoginRequiredMixin, View):
 @login_required
 def find_book(request):
     """View for searching and displaying books."""
-
     query = request.GET.get('q')  # Get the query parameter from the URL
     if query:
         # Search for books that match the query in title, author or category
         books = Book.objects.filter(
             Q(title__icontains=query) | Q(author__icontains=query) |
-            Q(category__name__icontains=query))
+            Q(category__name__icontains=query)
+        )
     else:
         # If no query is provided, display all books
         books = Book.objects.all()
