@@ -3,6 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.http import JsonResponse
 from django.views import View
 from django.utils.text import slugify
 from django.db.models import Q
@@ -287,9 +288,14 @@ def like_book(request, slug):
         if liked_by_user:
             # User has already liked the book, remove the like
             book.likes.remove(request.user)
+            liked_by_user = False
         else:
             # User hasn't liked the book, add the like
             book.likes.add(request.user)
+            liked_by_user = True
+            
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'liked': liked_by_user, 'likes_count': book.likes.count()})
 
     # Redirect back to the 'find_book' view with the previous query parameter
     if query_param:
@@ -310,9 +316,14 @@ def like_book_detail(request, slug):
         if liked_by_user:
             # User has already liked the book, remove the like
             book.likes.remove(request.user)
+            liked_by_user = False
         else:
             # User hasn't liked the book, add the like
             book.likes.add(request.user)
+            liked_by_user = True
+
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'liked': liked_by_user, 'likes_count': book.likes.count()})
 
         # Redirect back to the book detail page
         return redirect('book_detail', slug=slug)
@@ -328,6 +339,9 @@ def remove_from_favourites(request, slug):
     # Check if the user has liked the book
     if user in book.likes.all():
         book.likes.remove(user)  # Remove the user from the book's likes
+        
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return JsonResponse({'removed': True})
 
     # Redirect back to the user's favourites page
     return redirect('user_favourites')
