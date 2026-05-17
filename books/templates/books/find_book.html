@@ -54,16 +54,16 @@
             </td>
             <td class="small-none">{{ book.category }}</td>
             <td>
-              <form method="POST" action="{% url 'like_book' book.slug %}">
+              <form method="POST" action="{% url 'like_book' book.slug %}" class="like-form">
                 {% csrf_token %}
                 <input type="hidden" name="q" value="{{ request.GET.q }}">
                 {% if request.user in book.likes.all %}
-                  <button type="submit" class="btn text-danger shadow-none" aria-label="like">
-                    <i class="fa-solid fa-heart fa-beat"></i>
+                  <button type="submit" class="btn shadow-none" aria-label="like">
+                    <i class="fa-solid fa-heart fa-beat text-danger"></i>
                   </button>
                 {% else %}
-                  <button type="submit" class="btn text-primary shadow-none" aria-label="unlike">
-                    <i class="fa-regular fa-heart fa-bounce"></i>
+                  <button type="submit" class="btn shadow-none" aria-label="unlike">
+                    <i class="fa-regular fa-heart fa-bounce text-primary"></i>
                   </button>
                 {% endif %}
               </form>
@@ -85,5 +85,6 @@
 {% block script %}
 
 <script src="{% static 'js/search.js' %}"></script>
+<script src="{% static 'js/like.js' %}"></script>
 
 {% endblock %}

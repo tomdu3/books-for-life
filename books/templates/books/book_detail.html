@@ -35,17 +35,19 @@
                   <p class="card-text"> Added on: {{ book.created_on|date:"F d, Y" }}
                   </p>
                   <div class="d-flex flex-row justify-content-start">
-                    <p class="card-text text-start pt-2">Likes: {{ book.likes_counter }}</p>
-                    <form method="post" action="{% url 'like_book_detail' book.slug %}"> {% csrf_token %} <input
-                        type="hidden" name="q" value="{{ request.GET.q }}">
+                    <p class="card-text text-start pt-2 likes-counter">Likes: {{ book.likes_counter }}</p>
+                    <form method="post" action="{% url 'like_book_detail' book.slug %}" class="like-form">
+                      {% csrf_token %}
+                      <input type="hidden" name="q" value="{{ request.GET.q }}">
                       {% if request.user in book.likes.all %}
                       <button type="submit" class="btn shadow-none m-0" aria-label="Unlike">
                         <i class="fa-solid fa-heart fa-beat text-danger"></i>
+                      </button>
                       {% else %}
                       <button type="submit" class="btn shadow-none m-0" aria-label="Like">
                         <i class="fa-regular fa-heart fa-bounce text-primary"></i>
-                      {% endif %}
                       </button>
+                      {% endif %}
                     </form>
                   </div>
                 </div>
@@ -64,4 +66,8 @@
     </div>
   </div>
   
-  {% endblock %}
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/like.js' %}"></script>
+{% endblock %}

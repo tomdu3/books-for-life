@@ -30,7 +30,7 @@
             </td>
             <td class="small-none h6 align-middle">{{ book.category }}</td>
             <td class="text-center">
-              <form method="post" action="{% url 'remove_from_favourites' slug=book.slug %}"> {% csrf_token %}
+              <form method="post" action="{% url 'remove_from_favourites' slug=book.slug %}" class="like-form"> {% csrf_token %}
                 <button type="submit" class="btn btn-danger btn-sm">
                   <i class="fa-solid fa-xmark fa-beat" aria-label="unlike"></i>
                 </button>
@@ -51,4 +51,8 @@
   </div>
   {% endif %}
 
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/like.js' %}"></script>
 {% endblock %}
