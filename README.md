@@ -277,7 +277,7 @@ Contact Page is a simple page with a contact form. The form is made with EmailJS
 #### Find a Book Page
 Find a Book Page is a page with a search form. The form is made with html and is controlled by a view in Django. The form is responsive. The form is validated on the client side and the server side. The form is validated on the client side with HTML5 validation. The final result is a list of books that match the search criteria.
 There's a search field in which a user can write their queries. The button next to the search field triggers the search. The search works for the data that include titles, authors and categories of the books. If the input field is not empty, the clear search buttton appears. The clear search button clears the search field. If the input field is empty, the clear search button disappears. The search results are ordered by the date of creation of the book record.
-The nuber of found records appears above the table. Table has as columns number (sequential), Author, TItle, Category, and like. On smaller screens, numbers and categories columns dissapear. The book can be liked or unliked by clicking on the heart icon. Unliked book has a blue shallow animated heart, liked the red solid animated heart. The implementation isn't perfect, because every (un)liking refreshes the page, and if there are many books, the pages moves to the top.
+The nuber of found records appears above the table. Table has as columns number (sequential), Author, TItle, Category, and like. On smaller screens, numbers and categories columns dissapear. The book can be liked or unliked by clicking on the heart icon. Unliked book has a blue shallow animated heart, liked the red solid animated heart. The liking functionality is handled asynchronously via AJAX so the page does not refresh when interacting with the heart icon.
 User can click on the title of the book to be redirected to the book details page.
 
 #### Book Details Page
@@ -339,12 +339,13 @@ Developer wanted to implement the pagination for all the tables, but there wasn'
 - *Missing CRUD Notifications*
     - **Issue:** Certain actions (like book deletion via fallback routes) did not provide user feedback upon execution.
     - **Fix:** Configured contextual success and error flash notifications using Django's messaging framework across all record creation, modification, and deletion views.
+- *Book Liking Page Refresh*
+    - **Issue:** Every (un)liking of a book refreshed the page, causing the page to move to the top, which was disruptive especially when there were many books.
+    - **Fix:** Implemented asynchronous AJAX functionality using JavaScript and the `fetch` API. Now, liking or unliking a book dynamically updates the UI (heart icon and likes counter) without a page refresh.
 
 ### Known Limitations
 - *Book Deletion Modal*
     - **Issue:** The idea was to have a modal for the confirmation message on My Books Page, but there wasn't time for implementation. The attempt to add modal resulted in making automatic modal for the deletion for each record. That was not the desired result.
-- *Book Liking*
-    - **Issue:** The implementation isn't perfect, because every (un)liking refreshes the page, and if there are many books, the pages moves to the top. The developer tried to implement it without using JS, but that didn't give the desired result.
 - *Back Button*
     - **Issue:** The idea was to have a Back button that would bring the user back to the page from which they came to the Book Details. It is not he perfect solution. It uses a navigation history to go one step back. If the book is (un)liked, and page refreshes, that back needs to be pressed a few times to get the user back to the desired page without refreshing the cache.
 - *Book Short Description*
